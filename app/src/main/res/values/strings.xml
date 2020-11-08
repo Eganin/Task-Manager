@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">NotesManager</string>
+    <string name="title_zametki">Заголовки заметки</string>
+    <string name="description_edit_text_text">Описание</string>
+    <string name="priority_1">1</string>
+    <string name="proority_2">2</string>
+    <string name="_3">3</string>
+    <string name="add_note_buton_text">Добавить заметку</string>
+    <string name="warninf_filling_text">Введите значения</string>
+
+    <string-array name="dau_of_week">
+        <item>Понедельник</item>
+        <item>Вторник</item>
+        <item>Среда</item>
+        <item>Четверг</item>
+        <item>Пятница</item>
+        <item>Суббота</item>
+        <item>Воскресенье</item>
+    </string-array>
+</resources>
