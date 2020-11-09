@@ -7,11 +7,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.developers.notesmanager.R
 import com.example.android.developers.notesmanager.common.Note
-import com.example.android.developers.notesmanager.contacts.NoteContract
 
 class NoteAdapter(val notes: List<Note>) : RecyclerView.Adapter<NoteAdapter.NotesViewHolder>() {
 
-    // интерфейс у которого еужно реализрвать методы удаления по кдержанию и свайпу в activity
+    // интерфейс у которого нужно реализовать методы удаления по кдержанию и свайпу в activity
     interface OnNoteClickListener {
         fun onNoteClick(position: Int)
         fun onLongClick(position : Int)
@@ -29,7 +28,7 @@ class NoteAdapter(val notes: List<Note>) : RecyclerView.Adapter<NoteAdapter.Note
         fun bind(note: Note, holder: NotesViewHolder) {
             textViewTitle.text = note.title
             textViewDescription.text = note.description
-            textViewDayOfWeek.text = Note.getDayAsString(note.dayOfWeek)
+            textViewDayOfWeek.text =getDayAsString(note.dayOfWeek)
             val colorId: Int
             when (note.priority) {
                 "1" -> colorId = holder.itemView.resources.getColor(android.R.color.holo_red_light)
@@ -42,6 +41,8 @@ class NoteAdapter(val notes: List<Note>) : RecyclerView.Adapter<NoteAdapter.Note
             textViewTitle.setBackgroundColor(colorId)
 
             // устанавливаем listeners
+
+            // listener на нажатие
             holder.itemView.setOnClickListener {
 
                 if (onNoteClickListener != null) {
@@ -73,6 +74,17 @@ class NoteAdapter(val notes: List<Note>) : RecyclerView.Adapter<NoteAdapter.Note
     override fun getItemCount(): Int {
         return notes.size
     }
+
+    fun getDayAsString(number: Int) =
+        when (number) {
+            0 -> "Понедельник"
+            1 -> "Вторник"
+            2 -> "Среда"
+            3 -> "Четверг"
+            4 -> "Пятница"
+            5 -> "Суббота"
+            else -> "Воскресенье"
+        }
 }
 
 
