@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        sortedSettingPosition = intent.getIntExtra(SortedActivity.SAVE_SETTINGS_SORTED, 0)
         initRecyclerView()
         viewModel = ViewModelProviders.of(this)[MainViewModel::class.java]
         getData()
@@ -34,6 +35,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this@MainActivity, AddNoteActivity::class.java)
 
             startActivity(intent)
+        }
+
+        floatingActionButtonSortingSettings.setOnClickListener {
+            startActivity(Intent(this@MainActivity, SortedActivity::class.java))
         }
     }
 
@@ -99,7 +104,9 @@ class MainActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
         })
     }
-
+    companion object{
+        var sortedSettingPosition: Int = 0
+    }
 
 
 

@@ -17,6 +17,15 @@ interface NotesDao {
      */
     fun getAllNotes(): LiveData<List<Note>>
 
+    @Query("SELECT * FROM notes ORDER BY dayOfWeek DESC")
+    fun getAllNotesDESC(): LiveData<List<Note>>
+
+    @Query("SELECT * FROM notes ORDER BY priority ASC")
+    fun getAllNotesORDERPriority() : LiveData<List<Note>>
+
+    @Query("SELECT * FROM notes ORDER BY priority DESC")
+    fun getAllNotesORDERPriorityDESC() : LiveData<List<Note>>
+
     // выполняется при вставке данных
     @Insert
     fun insertNote(note: Note)

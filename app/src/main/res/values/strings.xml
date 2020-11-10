@@ -17,4 +17,11 @@
         <item>Суббота</item>
         <item>Воскресенье</item>
     </string-array>
+
+    <string-array name="sorted_type">
+        <item>Сортировать по дню недели , по порядку</item>
+        <item>Сортировать по дню недели , в обратном порядке</item>
+        <item>Сортировать по приоритету , по порядку</item>
+        <item>Сортировать по приоритету , в обратном порядке</item>
+    </string-array>
 </resources>

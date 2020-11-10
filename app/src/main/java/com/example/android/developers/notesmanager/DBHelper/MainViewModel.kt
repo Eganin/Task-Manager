@@ -3,6 +3,7 @@ package com.example.android.developers.notesmanager.DBHelper
 import android.app.Application
 import android.os.AsyncTask
 import androidx.lifecycle.AndroidViewModel
+import com.example.android.developers.notesmanager.activites.MainActivity
 import com.example.android.developers.notesmanager.common.Note
 
 
@@ -11,7 +12,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val database = NotesDatabase.getInstance(getApplication())
 
-    val notes = database?.notesDao()?.getAllNotes()
+    var notes = if (MainActivity.sortedSettingPosition == 0) {
+        database?.notesDao()?.getAllNotes()
+    } else if (MainActivity.sortedSettingPosition == 1) {
+        database?.notesDao()?.getAllNotesDESC()
+    } else if (MainActivity.sortedSettingPosition == 2) {
+        database?.notesDao()?.getAllNotesORDERPriority()
+    } else {
+        database?.notesDao()?.getAllNotesORDERPriorityDESC()
+    }
 
     fun insertNote(note: Note) {
         InsertTask().execute(note)

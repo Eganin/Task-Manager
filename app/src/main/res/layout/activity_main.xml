@@ -28,4 +28,18 @@
         app:layout_constraintTop_toTopOf="@+id/main_recycler_view"
         app:layout_constraintVertical_bias="0.976"
         app:srcCompat="@android:drawable/ic_input_add" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButtonSortingSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:layout_marginStart="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.954"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/main_recycler_view"
+        app:layout_constraintVertical_bias="0.976"
+        app:srcCompat="@drawable/ic_baseline_sort_24"
+        android:layout_marginLeft="20dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
