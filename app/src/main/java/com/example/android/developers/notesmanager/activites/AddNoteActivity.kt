@@ -5,21 +5,20 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.RadioButton
 import android.widget.Toast
-import com.example.android.developers.notesmanager.DBHelper.NotesDatabase
+import androidx.lifecycle.ViewModelProviders
+import com.example.android.developers.notesmanager.DBHelper.MainViewModel
 import com.example.android.developers.notesmanager.R
 import com.example.android.developers.notesmanager.common.Note
 import kotlinx.android.synthetic.main.activity_add_note.*
 
 class AddNoteActivity : AppCompatActivity() {
 
-    private var database: NotesDatabase? = null
+    private lateinit var viewModel : MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_note)
-
-        database = NotesDatabase.getInstance(context=this@AddNoteActivity)!!
-
+        viewModel = ViewModelProviders.of(this)[MainViewModel::class.java]
         button.setOnClickListener {
             val title = edit_text_title.text.toString()
             val description = edit_text_desciption.text.toString()
@@ -36,7 +35,7 @@ class AddNoteActivity : AppCompatActivity() {
                     priority = priority
                 )
 
-                database?.notesDao()?.insertNote(note = note)
+                viewModel.insertNote(note=note)
                 startActivity(Intent(this@AddNoteActivity, MainActivity::class.java))
             } else {
                 Toast.makeText(

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android.developers.notesmanager.R
 import com.example.android.developers.notesmanager.common.Note
 
-class NoteAdapter(val notes: List<Note>) : RecyclerView.Adapter<NoteAdapter.NotesViewHolder>() {
+class NoteAdapter(var notes: List<Note>) : RecyclerView.Adapter<NoteAdapter.NotesViewHolder>() {
 
     // интерфейс у которого нужно реализовать методы удаления по кдержанию и свайпу в activity
     interface OnNoteClickListener {
@@ -85,6 +85,8 @@ class NoteAdapter(val notes: List<Note>) : RecyclerView.Adapter<NoteAdapter.Note
             5 -> "Суббота"
             else -> "Воскресенье"
         }
+
+
 }
 
 

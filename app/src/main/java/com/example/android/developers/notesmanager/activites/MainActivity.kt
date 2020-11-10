@@ -4,10 +4,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProviders
+
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.android.developers.notesmanager.DBHelper.NotesDatabase
+import com.example.android.developers.notesmanager.DBHelper.MainViewModel
+
 import com.example.android.developers.notesmanager.R
 import com.example.android.developers.notesmanager.adapters.NoteAdapter
 import com.example.android.developers.notesmanager.common.Note
@@ -16,15 +19,15 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private val notes = arrayListOf<Note>()
-    private var database: NotesDatabase? = null
-
+    private lateinit var viewModel : MainViewModel
+    private lateinit var adapter: NoteAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        database = NotesDatabase.getInstance(context=this@MainActivity)!!
-        getData()
         initRecyclerView()
+        viewModel = ViewModelProviders.of(this)[MainViewModel::class.java]
+        getData()
         hideActionBar()
 
         floatingActionButton.setOnClickListener {
@@ -35,7 +38,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerView() {
-        val adapter = NoteAdapter(notes = notes)
+        adapter = NoteAdapter(notes = notes)
         val layoutManager =
             LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
         main_recycler_view.adapter = adapter
@@ -48,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
             // при долгом нажатии
             override fun onLongClick(position: Int) {
-                removeTask(position = position, adapter = adapter)
+                removeTask(position = position)
             }
         }
 
@@ -65,7 +68,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 // реагирует на свайп
-                removeTask(position = viewHolder.adapterPosition, adapter = adapter)
+                removeTask(position = viewHolder.adapterPosition)
             }
         })
 
@@ -73,17 +76,11 @@ class MainActivity : AppCompatActivity() {
         itemTouchHelper.attachToRecyclerView(main_recycler_view)
     }
 
-    private fun removeTask(position: Int, adapter: NoteAdapter) {
-        val note = notes[position]
-        /*
-        Идем в абстрактный класс - NotesDatabase
-        получаем instance интерфейса
-        и в нем с помощью метода с анотацией
-        удаляем данные по SQL запросу
-         */
-        database?.notesDao()?.deleteNote(note)
-        //adapter.notifyDataSetChanged()
-        getData()
+    private fun removeTask(position: Int) {
+        val note = adapter.notes[position]
+
+        viewModel.deleteNote(note=note)
+
     }
 
     private fun hideActionBar() {
@@ -93,16 +90,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun getData() {
         // получаем все замеки из БД
-        /*
-        Идем в абстрактный класс - NotesDatabase
-        получаем instance интерфейса
-        и в нем с помощью метода с анотацией
-        получаеи данные по SQL запросу
-         */
-        val notesFromDB = database?.notesDao()?.getAllNotes()
-        notes.clear()
-        notes.addAll(notesFromDB ?: listOf())
+
+        // этот объект теперь просматриваемый
+        // метод срабатывает каждый раз при изменении в БД метода -getAllNotes()
+        val notesFromDB = viewModel.notes
+        notesFromDB?.observe(this@MainActivity, {
+            adapter.notes = it
+            adapter.notifyDataSetChanged()
+        })
     }
+
+
 
 
 }

@@ -20,7 +20,6 @@ abstract class NotesDatabase : RoomDatabase() {
                 if (database == null) {
                     database =
                         Room.databaseBuilder(context.applicationContext, NotesDatabase::class.java, DB_NAME)
-                            .allowMainThreadQueries()
                             .build()
                 }
                 return database
